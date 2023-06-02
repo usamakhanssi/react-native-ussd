@@ -110,7 +110,7 @@ afterEvaluate { project ->
     task androidJavadoc(type: Javadoc) {
         source = android.sourceSets.main.java.srcDirs
         classpath += files(android.bootClasspath)
-        classpath += files(project.getConfigurations().getByName('compile').asList())
+        // classpath += files(project.getConfigurations().getByName('compile').asList())
         include '**/*.java'
     }
 
@@ -145,6 +145,12 @@ afterEvaluate { project ->
             // Deploy to react-native-event-bridge/maven, ready to publish to npm
             repository url: "file://${projectDir}/../android/maven"
             configureReactNativePom pom
+        }
+    }
+
+    subprojects { subproject ->
+        if(project['name'] == 'react-native-ussd'){
+            project.configurations { compile { } }
         }
     }
 }
